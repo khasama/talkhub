@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/khasama/webrtc/issues"
   },
-  "homepage": "https://github.com/khasama/webrtc#readme"
+  "homepage": "https://github.com/khasama/webrtc#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "package.json": "^2.0.1",
+    "socket.io": "^4.2.0",
+    "ws": "^8.2.2"
+  }
 }
