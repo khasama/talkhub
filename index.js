@@ -93,6 +93,7 @@ function removeUser(roomId, userId){
         }
     });
     rooms[index].users.find((obj, n) => {
+        // vì if(obj.userId == userId) nó đéo chịu nên làm thế này
         b = obj.userId == userId;
         c = b;
         if(c){
