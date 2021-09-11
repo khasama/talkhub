@@ -6,8 +6,7 @@ myVideo.muted = true;
 
 let localStream;
 let currentId;
-peers = {}
-let userIn = [];
+peers = {};
 let listUsers = [];
 
 
@@ -18,94 +17,67 @@ navigator.mediaDevices.getUserMedia({
     video: true
 }).then(stream => {
     // Thêm màn hình của chính mình lên
-    
-
     localStream = stream;
 }).catch((err) => { console.log(err) });
 
 // Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
 myPeer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id);
+    socket.emit('join-room', ROOM_ID, id, localStream.id);
     addVideoStream(myVideo, localStream);
     currentId = id;
-    userIn.push(id);
     console.log('khoi tao');
 });
 
 myPeer.on('call', call => {
     call.answer(localStream);
-    connectToNewUser(localStream);
+    const video = document.createElement('video');
+    call.on('stream', userVideoStream => {
+        video.setAttribute('id', userVideoStream.id);
+        addVideoStream(video, userVideoStream);
+    });
 });
 
-socket.on('user-connected', (userInRoom, userId) => {
-    listUsers = JSON.parse(userInRoom).users;
-    // socket.emit('update-list', userId);
+socket.on('user-connected',  userId => {
+    connectToNewUser(userId, localStream);
     console.log('co nguoi ket noi');
 });
 
-// socket.on('user-connected', userId => {
-//     console.log(userId);
-// });
+socket.on('update-list', userInRoom => {
+    console.log('update');
+    listUsers = JSON.parse(userInRoom).users;
+});
 
-socket.on('user-disconnected', (userInRoom, userId) => {
+socket.on('user-disconnected', (userInRoom, userId, mediaId) => {
     console.log('co nguoi huy ket noi');
     if(peers[userId]) peers[userId].close();
     listUsers = JSON.parse(userInRoom).users;
-    console.log(listUsers);
+    $(`#${mediaId}`).remove();
 });
 
 function addVideoStream(video, stream){
     video.autoplay = true;
     video.srcObject = stream;
-    var isPlaying = video.currentTime > 0 && !video.paused && !video.ended 
-    && video.readyState > video.HAVE_CURRENT_DATA;
-    if (!isPlaying) {
-    video.play();
-    }
-    //video.play();
+    video.addEventListener('loadedmetadata', () => {
+        video.play();
+    })
     $("#video-grid").append(video);
 }
 
 function connectToNewUser(userId, stream){
-    // listUsers.forEach((user) => {
-    //     console.log(user.userId != currentId);
-    //     if(user.userId != currentId){
-    //         $(`#${user.userId}`).remove();
-    //         const call =  myPeer.call(user.userId, stream);
-    //         const video = document.createElement('video');
-    //         video.setAttribute('id', user.userId);
-    //         call.on('stream', userVideoStream => {
-    //             console.log(userVideoStream);
-    //             addVideoStream(video, userVideoStream);
-    //         });
-    //         call.on('close', () => {
-    //             video.remove();
-    //         });
-    //         peers[user.userId] = call;
-    //     }
-    // });
-    listUsers.find((obj, i) => {
-        if(obj != currentId){
-            const call = myPeer.call(obj, stream);
-            $(`#${obj}`).remove();
-            const video = document.createElement('video');
-            video.setAttribute('id', obj);
-            call.on('stream', userVideoStream => {
-                console.log(i);
-                addVideoStream(video, userVideoStream);
-            });
-            call.on('close', () => {
-                video.remove();
-            });
-            peers[obj] = call;
-        }
-        
+    const call = myPeer.call(userId, stream);
+    const video = document.createElement('video');
+    call.on('stream', userVideoStream => {
+        video.setAttribute('id', userVideoStream.id);
+        addVideoStream(video, userVideoStream);
     });
-    
+    call.on('close', () => {
+        video.remove();
+    });
+    peers[userId] = call;
+
 }
 
 $("#btnOff").click(() => {
-    //console.log(localStream);
     myVideo.pause();
     myVideo.src = "";
     localStream.getVideoTracks()[0].stop();
@@ -125,7 +97,6 @@ $("#btnOn").click(() => {
         myVideo.autoplay = true;
         myVideo.srcObject = localStream;
         myVideo.play();
-        //console.log(localStream);
     });
     $("#btnOn").hide();
     $("#btnOff").show();
