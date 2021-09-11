@@ -9,14 +9,7 @@ let allUsers = [];
 let rooms = [
     {
         roomId: 'aaaa',
-        users: [
-            {
-                userId: 'adasdasdasdsad'
-            },
-            {
-                userId: '1'
-            }
-        ]
+        users: []
     },
 ];
 
@@ -43,12 +36,12 @@ io.on('connection', socket => {
                 return item;
             }
         });
-        console.log(rooms);
+        //console.log(rooms);
 
         //console.log(rooms[0]);
         socket.join(roomId);
         // gửi lên userId của người vừa vào room cho tất cả người trong room với key = 'user-connected' 
-        //socket.to(roomId).emit('user-connected', JSON.stringify(userInRoom), userId);
+        //socket.to(roomId).emit('user-connected',  userId);
         //socket.emit('user-connected', userId);
         io.sockets.to(roomId).emit('user-connected', JSON.stringify(userInRoom), userId);
         //socket.broadcasts.to(roomId).emit('user-connected', userId);
@@ -56,9 +49,9 @@ io.on('connection', socket => {
 
         // lắng nghe sự kiện có người rời phòng
         socket.on('disconnect', () => {
-
+            removeUser(roomId, userId)
             // gừi về userId của người vừa rời phòng cho tất cả client trong room
-            socket.to(roomId).emit('user-disconnected', userId);
+            socket.to(roomId).emit('user-disconnected', JSON.stringify(userInRoom), userId);
         });
         
         
@@ -74,15 +67,30 @@ function checkAndAdd(roomId, userId){
         }
     });
     if(index > -1){
-        rooms[index].users.push({
-            userId: `${userId}`
-        });
+        rooms[index].users.push(`${userId}`);
     }else{
         rooms.push({
             roomId: `${roomId}`,
-            users: [{
-                userId: `${userId}`
-            }]
+            users: [`${userId}`]
+        });
+    }
+}
+
+function removeUser(roomId, userId){
+    let index = -1;
+    const val = `${roomId}`
+    rooms.find((item, i) => {
+        if(item.roomId == val){
+            index = i;
+        }
+    });
+    if(index > -1){
+        rooms[index].users.find((obj, n) => {
+            //b = obj.userId == userId;
+            if(obj == userId){
+                rooms[index].users.splice(n, 1);
+            }
+            
         });
     }
 }

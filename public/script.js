@@ -7,50 +7,51 @@ myVideo.muted = true;
 let localStream;
 let currentId;
 peers = {}
+let userIn = [];
 let listUsers = [];
+
+
 
 // Bật client cái này sẽ chạy
 navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: {
-        width: { min: 360, ideal: 1280, max: 1920 },
-        height: { min: 200, ideal: 720, max: 1080 }
-    }
+    video: true
 }).then(stream => {
     // Thêm màn hình của chính mình lên
-    addVideoStream(myVideo, stream);
+    
 
     localStream = stream;
-
-    myPeer.on('call', call => {
-        call.answer(stream);
-        const video = document.createElement('video');
-        call.on('stream', userVideoStream => {
-            console.log(userVideoStream);
-            //addVideoStream(video, userVideoStream);
-        });
-    });
-
-    socket.on('user-connected', (userInRoom, userId) => {
-        listUsers = JSON.parse(userInRoom).users; 
-        connectToNewUser(userId, stream);
-    });
-
-});
+}).catch((err) => { console.log(err) });
 
 // Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
 myPeer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id);
+    addVideoStream(myVideo, localStream);
     currentId = id;
+    userIn.push(id);
+    console.log('khoi tao');
+});
+
+myPeer.on('call', call => {
+    call.answer(localStream);
+});
+
+socket.on('user-connected', (userInRoom, userId) => {
+    listUsers = JSON.parse(userInRoom).users;
+    connectToNewUser(userId, localStream);
+    // socket.emit('update-list', userId);
+    console.log('co nguoi ket noi');
 });
 
 // socket.on('user-connected', userId => {
 //     console.log(userId);
 // });
 
-socket.on('user-disconnected', userId => {
+socket.on('user-disconnected', (userInRoom, userId) => {
+    console.log('co nguoi huy ket noi');
     if(peers[userId]) peers[userId].close();
-    $(`#${userId}`).remove();
+    listUsers = JSON.parse(userInRoom).users;
+    console.log(listUsers);
 });
 
 function addVideoStream(video, stream){
@@ -61,22 +62,39 @@ function addVideoStream(video, stream){
 }
 
 function connectToNewUser(userId, stream){
-    listUsers.forEach((user) => {
-        console.log(user.userId != currentId);
-        if(user.userId != currentId){
-            $(`#${user.userId}`).remove();
-            const call =  myPeer.call(user.userId, stream);
+    // listUsers.forEach((user) => {
+    //     console.log(user.userId != currentId);
+    //     if(user.userId != currentId){
+    //         $(`#${user.userId}`).remove();
+    //         const call =  myPeer.call(user.userId, stream);
+    //         const video = document.createElement('video');
+    //         video.setAttribute('id', user.userId);
+    //         call.on('stream', userVideoStream => {
+    //             console.log(userVideoStream);
+    //             addVideoStream(video, userVideoStream);
+    //         });
+    //         call.on('close', () => {
+    //             video.remove();
+    //         });
+    //         peers[user.userId] = call;
+    //     }
+    // });
+    listUsers.find((obj, i) => {
+        if(obj != currentId){
+            const call = myPeer.call(obj, stream);
+            $(`#${obj}`).remove();
             const video = document.createElement('video');
-            video.setAttribute('id', user.userId);
+            video.setAttribute('id', obj);
             call.on('stream', userVideoStream => {
-                console.log(userVideoStream);
+                console.log(i);
                 addVideoStream(video, userVideoStream);
             });
             call.on('close', () => {
                 video.remove();
             });
-            peers[user.userId] = call;
+            peers[obj] = call;
         }
+        
     });
     
 }
