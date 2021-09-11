@@ -11,7 +11,7 @@ let listUsers = [];
 
 // Bật client cái này sẽ chạy
 navigator.mediaDevices.getUserMedia({
-    audio: false,
+    audio: true,
     video: {
         width: { min: 360, ideal: 1280, max: 1920 },
         height: { min: 200, ideal: 720, max: 1080 }
