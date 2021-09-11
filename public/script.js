@@ -57,7 +57,12 @@ socket.on('user-disconnected', (userInRoom, userId) => {
 function addVideoStream(video, stream){
     video.autoplay = true;
     video.srcObject = stream;
+    var isPlaying = video.currentTime > 0 && !video.paused && !video.ended 
+    && video.readyState > video.HAVE_CURRENT_DATA;
+    if (!isPlaying) {
     video.play();
+    }
+    //video.play();
     $("#video-grid").append(video);
 }
 
