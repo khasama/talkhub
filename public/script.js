@@ -34,11 +34,11 @@ myPeer.on('open', id => {
 
 myPeer.on('call', call => {
     call.answer(localStream);
+    connectToNewUser(localStream);
 });
 
 socket.on('user-connected', (userInRoom, userId) => {
     listUsers = JSON.parse(userInRoom).users;
-    connectToNewUser(userId, localStream);
     // socket.emit('update-list', userId);
     console.log('co nguoi ket noi');
 });
