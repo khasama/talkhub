@@ -2,6 +2,7 @@ const socket = io('/');
 const myPeer = new Peer();
 
 const myVideo = document.createElement('video');
+const screenView = document.getElementById("screen");
 myVideo.muted = true;
 
 let localStream;
@@ -9,21 +10,25 @@ let currentId;
 peers = {};
 let listUsers = [];
 let listToConn = [];
-let con;
+
+let screen;
 
 
 
 // Bật client cái này sẽ chạy
 navigator.mediaDevices.getUserMedia({
     audio: true,
-    video: true
+    video: {
+        width: { min: 1024, ideal: 1280, max: 1920 },
+        height: { min: 576, ideal: 720, max: 1080 }
+    }
 }).then(stream => {
     localStream = stream;
 }).catch((err) => { console.log(err) });
 
 // Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
 myPeer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id, localStream);
+    socket.emit('join-room', ROOM_ID, id, localStream.id);
     addVideoStream(myVideo, localStream); // Thêm màn hình của chính mình lên
     currentId = id;
     console.log('khoi tao');
@@ -78,10 +83,42 @@ socket.on('user-disconnected', (userInRoom, userId, mediaId) => {
 
     // Update lại cái danh sách người dùng trong phòng
     updateUsers(listUsers);
-    
+
     // hiện người vừa rời lên box
     $(".chat-box").append(`<p>${userId} vừa rời phòng !!!</p>`);
     $(`#${mediaId}`).remove();
+});
+
+// nếu nếu có người share screen thì gọi tới screen đó để lấy stream về
+socket.on('user-share',  screenId => {
+    const screen = myPeer.call(screenId, localStream);
+    screen.on('stream', userScreenStream => {
+        // nếu có người đang share screen thì hiện ra
+        screenView.srcObject = userScreenStream;
+        screenView.addEventListener('loadedmetadata', () => {
+            screenView.play();
+        });
+        $(".share-screen").show();
+    });
+});
+
+// nếu vừa vào phòng có người đang share thì gọi tới lun
+socket.on('user-shared', screenId => {
+    const screen = myPeer.call(screenId, localStream);
+    screen.on('stream', userScreenStream => {
+        // nếu có người đang share screen thì hiện ra
+        screenView.srcObject = userScreenStream;
+        screenView.addEventListener('loadedmetadata', () => {
+            screenView.play();
+        });
+        $(".share-screen").show();
+    });
+});
+
+socket.on('user-stop-share', () => {
+    screenView.pause();
+    screenView.src = "";
+    $(".share-screen").hide();
 });
 
 function addVideoStream(video, stream){
@@ -108,7 +145,6 @@ function connectToNewUser(userId, stream){
     peers[userId] = call;
 
 }
-
 
 function updateUsers(listUsers){
     let list = '';
@@ -153,7 +189,6 @@ $("#submit-chat").click(() => {
     let msg = $("#chat-input").val();
     sendMess(msg);
 });
-
 function sendMess(mess){
     $("#chat-input").val('');
     if(mess){
@@ -163,3 +198,42 @@ function sendMess(mess){
         });
     }
 }
+
+
+$("#btn-share-screen").click(() => {
+    navigator.mediaDevices.getDisplayMedia({ video: true })
+    .then(stream => {
+        screen = stream;
+        screenView.srcObject = stream;
+        screenView.addEventListener('loadedmetadata', () => {
+            screenView.play();
+        });
+        const screenPeer = new Peer();
+        screenPeer.on('open', id => {
+            socket.emit('user-share', ROOM_ID, id, currentId);
+        });
+
+        screenPeer.on('call', call => {
+            call.answer(screen);
+        });
+        
+        // Ẩn những thứ cần ẩn và hiện những thứ cần hiện
+        $(".share-screen").show();
+        $("#btn-share-screen").hide();
+        $("#btn-stop-share").show();
+    })
+    .catch((err) => { console.log(err) });
+})
+
+$("#btn-stop-share").click(() => {
+    screen.getVideoTracks()[0].stop();
+    screenView.pause();
+    screenView.src = "";
+    socket.emit('user-stop-share');
+
+    // ẩn những thứ cần ẩn và hiên những thứ cần hiện
+    $(".share-screen").hide();
+    $("#btn-share-screen").show();
+    $("#btn-stop-share").hide();
+    
+});

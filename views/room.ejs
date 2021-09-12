@@ -8,17 +8,16 @@
     <script>
         const ROOM_ID = "<%= roomId %>"
     </script>
-    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="socket.io.js" defer></script>
     <script src="script.js" defer></script>
-    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
-    crossorigin="anonymous"></script>
+    <script src="peerjs.min.js"></script>
+    <script src="jquery.min.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
         }
-        .wrapper{
+        .box{
             display: flex;
         }
         #video-grid{
@@ -43,32 +42,52 @@
             overflow-y: scroll;
             background-color: chartreuse;
         }
+
+        .share-screen{
+            width: 1280px;
+            height: 720px;
+            margin: 5px auto;
+            background-color: black;
+            display: none;
+        }
+        .share-screen video{
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="wrapper">
-        <div class="video-container">
-            <div id="video-grid">
-    
+        <div class="box">
+            <div class="video-container">
+                <div id="video-grid">
+        
+                </div>
+                <button id="btn-off-cam">Tắt camera</button>
+                <button id="btn-on-cam" style="display: none;">Bật camera</button> <br>
+                <button id="btn-share-screen">Chia sẻ màn hình</button>
+                <button id="btn-stop-share" style="display: none;">Dừng chia sẻ màn hình</button>
             </div>
-            <button id="btnOff">Tắt camera</button>
-            <button id="btnOn" style="display: none;">Bật camera</button> <br>
-        </div>
-    
-        <div class="chat-container">
-            <div class="chat-box">
-    
+        
+            <div class="chat-container">
+                <div class="chat-box">
+        
+                </div>
+                <div class="">
+                    <input type="text" id="chat-input" placeholder="Enter your message..." autocomplete="off">
+                    <button type="submit" id="submit-chat"> Enter </button>
+                </div>
             </div>
-            <div class="">
-                <input type="text" id="chat-input" placeholder="Enter your message..." autocomplete="off">
-                <button type="submit" id="submit-chat"> Enter </button>
+    
+            <div class="list-box">
+                <ul class="list-users">
+    
+                </ul>
             </div>
         </div>
 
-        <div class="list-box">
-            <ul class="list-users">
-
-            </ul>
+        <div class="share-screen">
+            <video autoplay id="screen"></video>
         </div>
     </div>
     <script>
