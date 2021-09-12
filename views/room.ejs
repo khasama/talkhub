@@ -14,6 +14,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
     crossorigin="anonymous"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .wrapper{
+            display: flex;
+        }
         #video-grid{
             display: flex;
         }
@@ -22,14 +29,50 @@
             object-fit: cover;
             margin: 0 10px 0 0;
         }
+
+        .chat-box{
+            height: 500px;
+            width: 350px;
+            overflow-y: scroll;
+            background-color: aquamarine;
+        }
+
+        .list-box{
+            width: 300px;
+            height: 300px;
+            overflow-y: scroll;
+            background-color: chartreuse;
+        }
     </style>
 </head>
 <body>
-    <div id="video-grid">
+    <div class="wrapper">
+        <div class="video-container">
+            <div id="video-grid">
+    
+            </div>
+            <button id="btnOff">Tắt camera</button>
+            <button id="btnOn" style="display: none;">Bật camera</button> <br>
+        </div>
+    
+        <div class="chat-container">
+            <div class="chat-box">
+    
+            </div>
+            <div class="">
+                <input type="text" id="chat-input" placeholder="Enter your message..." autocomplete="off">
+                <button type="submit" id="submit-chat"> Enter </button>
+            </div>
+        </div>
 
+        <div class="list-box">
+            <ul class="list-users">
+
+            </ul>
+        </div>
     </div>
-
-    <button id="btnOff">Tắt camera</button>
-    <button id="btnOn" style="display: none;">Bật camera</button>
+    <script>
+        
+    </script>
 </body>
 </html>

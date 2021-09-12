@@ -30,25 +30,25 @@ io.on('connection', socket => {
 
     // nếu có req gọi lên với key = 'join-room' 
     socket.on('join-room', (roomId, userId, mediaId) => {
-        checkAndAdd(roomId, userId, mediaId);
-        const userInRoom = rooms.find((item, i) => {
+        checkAndAdd(roomId, userId, mediaId); // kiểm tra có tồn tại và thêm mới
+        const userInRoom = rooms.find((item, i) => { //lấy ra danh sách người đang trong phòng
             if(item.roomId == roomId){
                 return item;
             }
         });
-        console.log(userInRoom);
+        //console.log(userInRoom);
 
         //console.log(rooms[0]);
         socket.join(roomId);
         // gửi lên userId của người vừa vào room cho tất cả người trong room với key = 'user-connected' 
         socket.to(roomId).emit('user-connected',  userId);
-        //socket.emit('user-connected', userId);
+
+        //update danh sách và gửi về cho all người trong room
         io.sockets.to(roomId).emit('update-list', JSON.stringify(userInRoom));
-        //socket.broadcasts.to(roomId).emit('user-connected', userId);
-
-
+        
         // lắng nghe sự kiện có người rời phòng
         socket.on('disconnect', () => {
+            // xóa người mới rời phòng
             removeUser(roomId, userId);
             // gừi về userId của người vừa rời phòng cho tất cả client trong room
             socket.to(roomId).emit('user-disconnected', JSON.stringify(userInRoom), userId, mediaId);
