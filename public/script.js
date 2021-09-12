@@ -23,7 +23,7 @@ navigator.mediaDevices.getUserMedia({
 
 // Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
 myPeer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id, localStream.id);
+    socket.emit('join-room', ROOM_ID, id, localStream);
     addVideoStream(myVideo, localStream); // Thêm màn hình của chính mình lên
     currentId = id;
     console.log('khoi tao');
