@@ -3,7 +3,11 @@ const { stringify } = require('querystring');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const { v4: uuidV4 } = require('uuid');
+const { v4: uuidV4, validate: uuidValidate } = require('uuid');
+
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+const port = process.env.PORT || 3000;
 
 let allUsers = [];
 let rooms = [
@@ -14,16 +18,20 @@ let rooms = [
     },
 ];
 
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
-
 app.get('/', (req, res) => {
     res.redirect(`/${uuidV4()}`);
 });
 
+app.get('/home', (req, res) => {
+    res.render('pages/index');
+});
+
 app.get('/:room', (req, res) => {
-    res.render('room', { roomId: req.params.room });
+    if(uuidValidate(req.params.room)){
+        res.render('room', { roomId: req.params.room });
+    } else {
+        res.redirect(`/home`);
+    }
 });
 
 // Server chạy và lắng nghe kết nối
@@ -167,6 +175,6 @@ function removeUser(roomId, userId){
     rooms[index].users.splice(d, 1);
 }
 
-server.listen( process.env.PORT || 3000, () => {
+server.listen( port, () => {
     console.log("server is running in 3000");
 });

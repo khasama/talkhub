@@ -24,16 +24,17 @@ navigator.mediaDevices.getUserMedia({
     }
 }).then(stream => {
     localStream = stream;
+    // Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
+    myPeer.on('open', id => {
+        socket.emit('join-room', ROOM_ID, id, stream.id);
+        addVideoStream(myVideo, localStream); // Thêm màn hình của chính mình lên
+        currentId = id;
+        console.log('khoi tao');
+        
+    });
 }).catch((err) => { console.log(err) });
 
-// Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
-myPeer.on('open', id => {
-    socket.emit('join-room', ROOM_ID, id, localStream.id);
-    addVideoStream(myVideo, localStream); // Thêm màn hình của chính mình lên
-    currentId = id;
-    console.log('khoi tao');
-    
-});
+
 
 // Lắng nghe có người gọi tới
 myPeer.on('call', call => {
