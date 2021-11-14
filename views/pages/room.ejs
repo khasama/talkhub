@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %> 
+</head>
+<body>
+    <script>
+        const ROOM_ID = "<%= roomId %>";
+        console.log(ROOM_ID);
+    </script>
+    <header>
+        <%- include('../partials/header') %> 
+    </header>
+
+    <main>
+        <div class="wrapper">
+            <div class="box">
+                <div class="video-container">
+                    <div id="video-grid">
+            
+                    </div>
+                    <button id="btn-off-cam">Tắt camera</button>
+                    <button id="btn-on-cam" style="display: none;">Bật camera</button> <br>
+                    <button id="btn-share-screen">Chia sẻ màn hình</button>
+                    <button id="btn-stop-share" style="display: none;">Dừng chia sẻ màn hình</button>
+                </div>
+            
+                <div class="chat-container">
+                    <div class="chat-box">
+            
+                    </div>
+                    <div class="">
+                        <input type="text" id="chat-input" placeholder="Enter your message..." autocomplete="off">
+                        <button type="submit" id="submit-chat"> Enter </button>
+                    </div>
+                </div>
+        
+                <div class="list-box">
+                    <ul class="list-users">
+        
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="share-screen">
+                <video autoplay id="screen"></video>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer') %> 
+    </footer>
+
+    <%- include('../partials/foot') %>
+
+    <script src="js/script.js" defer></script>
+</body>
+</html>

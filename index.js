@@ -18,17 +18,17 @@ let rooms = [
     },
 ];
 
-app.get('/', (req, res) => {
-    res.redirect(`/${uuidV4()}`);
-});
+// app.get('/', (req, res) => {
+//     res.redirect(`/${uuidV4()}`);
+// });
 
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     res.render('pages/index');
 });
 
 app.get('/:room', (req, res) => {
     if(uuidValidate(req.params.room)){
-        res.render('room', { roomId: req.params.room });
+        res.render('pages/room', { roomId: req.params.room });
     } else {
         res.redirect(`/home`);
     }

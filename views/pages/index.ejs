@@ -12,11 +12,36 @@
         <h1>
             cc
         </h1>
+        <div>
+            <button id="creat-room">Creat room</button>
+            <input type="text" id="id-room">
+            <button id="join-room">Join</button>
+        </div>
+
     </main>
 
     <footer>
         <%- include('../partials/footer') %> 
     </footer>
     
+    <%- include('../partials/foot') %>
+
+    <script>
+        function uuidv4() {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        $("#creat-room").click(() => {
+            const id = uuidv4();
+            window.location = `/${id}`;
+        });
+
+        $("#join-room").click(() => {
+            const id = $("#id-room").val();
+            window.location = `/${id}`;
+        });
+    </script>
 </body>
 </html>
