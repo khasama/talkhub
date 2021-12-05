@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/css/rps.css">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            display: flex;
+        }
+
+        .l-main{
+            background-color: aqua;
+            width: 80%;
+            height: 100vh;
+            overflow-y: scroll;
+            
+        }
+
+        .r-main{
+            background-color: bisque;
+            width: 20%;
+            height: 100vh;
+        }
+        .list-cam {
+            padding: 0.4%;
+            overflow: hidden;
+        }
+        .cam {
+            width: 19%;
+            height: 143px;
+            background-color: #3f3f3f;
+            margin: 0.5%;
+            float: left;
+        }
+
+        .present {
+            /* display: none; */
+            width: 100%;
+            height: 85vh;
+            background-color: azure;
+        }
+
+        .top-control {
+            width: 100%;
+            height: 80px;
+            background-color: rebeccapurple;
+        }
+
+
+        .user {
+            padding: 10px;
+            display: flex;
+            background-color: azure;
+        }
+        .user img {
+            width: 40px;
+            border-radius: 100%;
+        }
+        .user span {
+            font-size: 18px;
+            line-height: 40px;
+            margin-left: 10px;
+        }
+
+        .chat-box {
+            width: 100%;
+            height: 80vh;
+            background-color: aqua;
+            padding: 5px;
+        }
+        .chat-box .msg {
+            margin-bottom: 15px;
+        }
+        .chat-box .msg .name {
+            font-weight: bold;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="wrapper">
+        <div class="l-main">
+            <div class="present"></div>
+            <div class="list-cam">
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+                <div class="cam"></div>
+            </div>
+        </div>
+        <div class="r-main">
+            <div class="top-control">
+                <button>Present</button>
+                <button>Off mic</button>
+                <button>Off Cam</button>
+                <button>End</button>
+            </div>
+            <div class="bot-control">
+                <div class="tab-ctr">
+                    <button class="tab-btn" onclick="changeTab('list')">List</button>
+                    <button class="tab-btn" onclick="changeTab('chat')">Chat</button>
+                </div>
+                <div id="list" class="list-tab tab">
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/user/unknow.jpg" alt="">
+                        <span> Nguyễn Văn C</span>
+                    </div>
+
+                </div>
+                  
+                <div id="chat" class="chat-tab tab" style="display:none">
+                    <div class="chat-box">
+                        <div class="msg">
+                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="text"> hahahahaha</span>
+                        </div>
+                        <div class="msg">
+                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="text"> hahahahaha</span>
+                        </div>
+                        <div class="msg">
+                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="text"> hahahahaha</span>
+                        </div>
+                        <div class="msg">
+                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="text"> hahahahaha</span>
+                        </div>
+                        <div class="msg">
+                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="text"> hahahahaha</span>
+                        </div>
+                        <div class="msg">
+                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="text"> hahahahaha</span>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text">
+                        <button>gửi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function changeTab(tab) {
+            var i;
+            var x = document.getElementsByClassName("tab");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            document.getElementById(tab).style.display = "block";  
+        }
+    </script>
+</body>
+</html>
