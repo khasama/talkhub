@@ -12,13 +12,21 @@ body{
     display: flex;
 }
 .bgr{
-    padding-bottom: 300px;
+    padding-bottom: 450px;
     background-image: url('../img/bg2.png');
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;
 }
 /* more */
+.white-text{
+    color: #fff;
+}
+.form2 {
+    width: 500px;
+    background-color: rgba(30, 0, 0, 0.2);
+    margin-top: 20px;
+}
 .w3-button:hover {
     background-color: #113484 !important;
 }
