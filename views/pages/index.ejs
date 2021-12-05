@@ -20,14 +20,13 @@
             </div>
             </div>
             <div class="row">
-                <div class="col-md-4 mx-auto">
-                    <div class="container form2"> 
-                        <div class="wr">
-                        <button id="creat-room">Creat room</button>
-                        <input type="text" id="id-room">
-                        <button id="join-room">Join</button>
-                        </div>
-                    </div>
+                <div class="wr" style="margin: 0 auto;text-align: center;">
+                    <input type="text" id="id-room">
+                    <button id="join-room">Join</button> <br>
+                    <button id="create-room"> 
+                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/plus.png"/>
+                        Create room
+                    </button>
                 </div>
             </div>
         </div>
@@ -45,7 +44,7 @@
             );
         }
 
-        $("#creat-room").click(() => {
+        $("#create-room").click(() => {
             const id = uuidv4();
             window.location = `/${id}`;
         });
