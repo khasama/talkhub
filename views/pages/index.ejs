@@ -1,30 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background-color:hsl(180, 70%, 58%);">
 <head>
     <%- include('../partials/head') %> 
 </head>
-<body>
+<body class="bg">
     <header>
         <%- include('../partials/header') %> 
     </header>
-
-    <main>
-        <h1>
-            cc
-        </h1>
-        <div>
+    <div class="container-fluid bgr">
+        <div class="container">
+            <div class="col-md-6 mx-auto text-center">
+            <div class="header-title">
+                <h1 class="wv-heading--title ">
+                    Talk Hub
+                </h1>
+                <h2 class="wv-heading--subtitle">
+                    Cùng nhau trò chuyện, Talk Hub là nơi bạn có thể trò chuyện với nhóm bạn, học tập, nhóm chơi game và nhiều thứ khác nữa...
+                </h2>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="myform form ">
+                    <form action="" method="post" name="login">
+                        <div class="form-group">
+                        <input type="text" name="name"  class="form-control my-input" id="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                        <input type="email" name="email"  class="form-control my-input" id="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                        <input type="number" min="0" name="phone" id="phone"  class="form-control my-input" placeholder="Phone">
+                        </div>
+                        <div class="text-center ">
+                        <button type="submit" class=" btn btn-block send-button tx-tfm">Create Your Free Account</button>
+                        </div>
+                        <div class="col-md-12 ">
+                        <div class="login-or">
+                            <hr class="hr-or">
+                            <span class="span-or">or</span>
+                        </div>
+                        </div>
+                        <div class="form-group">
+                        <a class="btn btn-block g-button" href="#">
+                        <i class="fa fa-google"></i> Sign up with Google
+                        </a>
+                        </div>
+                        <p class="small mt-3">By signing up, you are indicating that you have read and agree to the <a href="#" class="ps-hero__content__link">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+                        </p>
+                    </form>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="container"> 
             <button id="creat-room">Creat room</button>
             <input type="text" id="id-room">
             <button id="join-room">Join</button>
         </div>
-
-    </main>
-
+    </div>   
     <footer>
         <%- include('../partials/footer') %> 
     </footer>
     
-    <%- include('../partials/foot') %>
+        <%- include('../partials/foot') %>
 
     <script>
         function uuidv4() {
