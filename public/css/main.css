@@ -12,16 +12,20 @@ body{
     display: flex;
 }
 .bgr{
-    padding-bottom: 450px;
+    padding-bottom: 530px;
     background-image: url('../img/bg2.png');
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;
 }
 /* more */
+.ptt{
+    padding-top: 100px;
+}
 .white-text{
     color: #fff;
 }
+
 .form2 {
     width: 500px;
     background-color: rgba(30, 0, 0, 0.2);

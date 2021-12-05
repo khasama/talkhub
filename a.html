@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/rps.css">
-    <title>Document</title>
+    <title>Talk Hub</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="public/img/TalkHub.png">
     <style>
         * {
             margin: 0;
@@ -18,7 +21,7 @@
         }
 
         .l-main{
-            background-color: aqua;
+            background-color: #ffccff;
             width: 80%;
             height: 100vh;
             overflow-y: scroll;
@@ -28,7 +31,8 @@
         .r-main{
             background-color: bisque;
             width: 20%;
-            height: 100vh;
+            background: -webkit-linear-gradient(45deg, #00dbde, #fc00ff);
+
         }
         .list-cam {
             padding: 0.4%;
@@ -37,7 +41,7 @@
         .cam {
             width: 19%;
             height: 143px;
-            background-color: #3f3f3f;
+            background-color: #252323;
             margin: 0.5%;
             float: left;
         }
@@ -47,11 +51,12 @@
             width: 100%;
             height: 85vh;
             background-color: azure;
+            /* display: none; */
         }
 
         .top-control {
             width: 100%;
-            height: 80px;
+            /* height: 80px; */
             background-color: rebeccapurple;
         }
 
@@ -83,11 +88,40 @@
         .chat-box .msg .name {
             font-weight: bold;
         }
+        .tabs{
+            overflow: scroll;
+        }
+        .bton{
+            padding-top: 20px;;
+            text-align: center;
+        }
+        .btnn button{
+            border: none;
+            
+            background-color: #fff;
+
+        }
+        .bton button{
+            padding: 3px;
+            border-radius: 50%;
+            text-align: center;
+        }
+        .info{
+            position: fixed;
+            bottom: 0px;
+            background-color: #fff;
+            width: 100%;
+        }
     </style>
     
 </head>
 <body>
+    <div class="info btnn pl-">
+        <button class="px-2" title="Infor room"><img src="https://img.icons8.com/ios/20/000000/info--v1.png"/></button>
+        <button class="px-2" title="More setting"><img src="https://img.icons8.com/external-justicon-lineal-justicon/20/000000/external-setting-notifications-justicon-lineal-justicon.png"/></buttont>
+    </div>
     <div class="wrapper">
+        
         <div class="l-main">
             <div class="present"></div>
             <div class="list-cam">
@@ -109,19 +143,22 @@
                 <div class="cam"></div>
             </div>
         </div>
+
+
+
         <div class="r-main">
-            <div class="top-control">
-                <button>Present</button>
-                <button>Off mic</button>
-                <button>Off Cam</button>
-                <button>End</button>
+            <div class="top-control bton">
+                <button title="Share screen"><img src="https://img.icons8.com/ios/30/000000/toggle-full-screen.png"/></button>
+                <button title="Turn on microphone"><img src="https://img.icons8.com/ios/30/000000/microphone.png"/></button>
+                <button title="Turn off microphone"><img src="https://img.icons8.com/ios/30/000000/block-microphone--v1.png"/></button>
+                <button title="Leave meet room"><img src="https://img.icons8.com/color/30/000000/end-call.png"/></button>
             </div>
             <div class="bot-control">
                 <div class="tab-ctr">
                     <button class="tab-btn" onclick="changeTab('list')">List</button>
                     <button class="tab-btn" onclick="changeTab('chat')">Chat</button>
                 </div>
-                <div id="list" class="list-tab tab">
+                <div id="list" class="list-tab tab tabs">
                     <div class="user">
                         <img src="public/img/user/unknow.jpg" alt="">
                         <span> Nguyễn Văn C</span>
