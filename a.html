@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0″>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="public/css/rps.css">
     <title>Talk Hub</title>
@@ -15,13 +17,16 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        .tab-btn{
+            background-color: transparent;
+            border: none;
+        }
         .wrapper {
             display: flex;
         }
 
         .l-main{
-            background-color: #ffccff;
+            background-color: #000;
             width: 80%;
             height: 100vh;
             overflow-y: scroll;
@@ -29,25 +34,53 @@
         }
 
         .r-main{
-            background-color: bisque;
             width: 20%;
-            background: -webkit-linear-gradient(45deg, #00dbde, #fc00ff);
+            background: -webkit-linear-gradient(5deg, #006666, #00001a);
 
         }
         .list-cam {
+            align-items: center;
+            height: auto;
+            justify-content: center;
+            width: 100%;
             padding: 0.4%;
             overflow: hidden;
+            display: grid;
+            grid-gap: 5px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 230px));
+            
+
         }
         .cam {
-            width: 19%;
-            height: 143px;
+            flex-flow: wrap;
+            animation: fadeOut .65s;
+            height: 195px;
             background-color: #252323;
             margin: 0.5%;
-            float: left;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cam img{
+        
+            display: block;
+            width: 50%;
+            height: 100px;
+            background-image: none;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 50%;
+
+            background-size: cover;
+            padding: 0%;
         }
 
         .present {
-            /* display: none; */
+            display: none;
             width: 100%;
             height: 85vh;
             background-color: azure;
@@ -57,30 +90,51 @@
         .top-control {
             width: 100%;
             /* height: 80px; */
-            background-color: rebeccapurple;
+            background-color: gray;
         }
 
 
         .user {
-            padding: 10px;
             display: flex;
-            background-color: azure;
+            color: #fff;
+            padding: 5px;
+            overflow: hidden;
+            white-space: nowrap; 
+            text-overflow: ellipsis;
+        }
+        .user i{
+            align-self: center;
+            font-size:25px;
+            color:#ffff;
+            max-width: 25px;
+            min-width: 25px;
         }
         .user img {
             width: 40px;
             border-radius: 100%;
         }
         .user span {
-            font-size: 18px;
+            width: 180px;
+            font-size: 15px;
             line-height: 40px;
-            margin-left: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+
+        }
+        .overf{
+            overflow: hidden;
+            white-space: nowrap; 
+            text-overflow: ellipsis;
+            max-width: 170px;
         }
 
         .chat-box {
+            overflow: scroll;
             width: 100%;
             height: 80vh;
-            background-color: aqua;
             padding: 5px;
+            color: #fff;
         }
         .chat-box .msg {
             margin-bottom: 15px;
@@ -95,12 +149,7 @@
             padding-top: 20px;;
             text-align: center;
         }
-        .btnn button{
-            border: none;
-            
-            background-color: #fff;
 
-        }
         .bton button{
             padding: 3px;
             border-radius: 50%;
@@ -112,112 +161,242 @@
             background-color: #fff;
             width: 100%;
         }
+
+        .list-tab{
+            overflow: scroll;
+            height: 600px;
+        }
+
+        :focus-visible {
+            outline: none;
+        }
+        
+
+        button:focus {
+            outline: 0px dotted;
+            outline: 0px auto -webkit-focus-ring-color;
+        }
+        .tab-ctr{
+            background-color: #282A35;
+            justify-content: center;
+            overflow: hidden;
+            display: grid;
+            grid-gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(20px, 10px));
+        }
+        .tab-ctr button i{
+            vertical-align: -webkit-baseline-middle;
+            padding: 5px 0px 5px 0px;
+            font-size:25px;
+            color:#ffff;
+        }
+        .l-main::-webkit-scrollbar {
+            width: 5px;               /* width of the entire scrollbar */
+        }
+
+        .l-main::-webkit-scrollbar-track {
+            background: transparent;        /* color of the tracking area */
+        }
+
+        .l-main::-webkit-scrollbar-thumb {
+            background-color: gray;    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 3px solid transparent;  /* creates padding around scroll thumb */
+        }
+
+        .list-tab::-webkit-scrollbar {
+            width: 5px;               /* width of the entire scrollbar */
+        }
+
+        .list-tab::-webkit-scrollbar-track {
+            background: transparent;        /* color of the tracking area */
+        }
+
+        .list-tab::-webkit-scrollbar-thumb {
+            background-color: gray;    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 3px solid transparent;  /* creates padding around scroll thumb */
+        }
+        /*  */
+        .chat-box::-webkit-scrollbar {
+            width: 5px;               /* width of the entire scrollbar */
+        }
+
+        .chat-box::-webkit-scrollbar-track {
+            background: transparent;        /* color of the tracking area */
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background-color: gray;    /* color of the scroll thumb */
+            border-radius: 20px;       /* roundness of the scroll thumb */
+            border: 3px solid transparent;  /* creates padding around scroll thumb */
+        }
+        .mic{
+            display: contents;
+            width: 25px;
+            height: 25px;
+            align-self: center;
+        }
+
+        .search{
+            padding: 5px;
+            width: 100%;
+            text-align-last: center;
+            
+        }
+        .search input{
+            border-radius: 10px;
+            box-shadow: #fff;
+            background-color: transparent;
+            color: #fff;
+        }
+
     </style>
     
 </head>
 <body>
-    <div class="info btnn pl-">
-        <button class="px-2" title="Infor room"><img src="https://img.icons8.com/ios/20/000000/info--v1.png"/></button>
-        <button class="px-2" title="More setting"><img src="https://img.icons8.com/external-justicon-lineal-justicon/20/000000/external-setting-notifications-justicon-lineal-justicon.png"/></buttont>
-    </div>
     <div class="wrapper">
         
         <div class="l-main">
-            <div class="present"></div>
+            <!-- <div class="present"></div> -->
             <div class="list-cam">
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
-                <div class="cam"></div>
+                <div class="cam b">
+                    <img src="public/img/cam2.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+
+                </div>
+                <div class="cam">
+                    <img src="public/img/cam1.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="cam">
+                    <img src="public/img/cam3.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="cam">
+                    <img src="public/img/cam2.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="cam">
+                    <img src="public/img/cam3.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="cam">
+                    <img src="public/img/cam2.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="cam">
+                    <img src="public/img/cam1.png" alt="">
+                    <div class="text" style="margin-left: 20px;"><span style=" color: #fff;">Nguyen Viet Car</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px"  height="24px" viewBox="0 0 24 24" fill="#fff  " class="nameuser">
+                            <path d="M0 0h24v24H0zm0 0h24v24H0z" fill="none"></path>
+                            <path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"></path>
+                        </svg>
+                    </div>
+                </div>
             </div>
+            
         </div>
 
-
-
+<!-- List-user -->
         <div class="r-main">
-            <div class="top-control bton">
-                <button title="Share screen"><img src="https://img.icons8.com/ios/30/000000/toggle-full-screen.png"/></button>
-                <button title="Turn on microphone"><img src="https://img.icons8.com/ios/30/000000/microphone.png"/></button>
-                <button title="Turn off microphone"><img src="https://img.icons8.com/ios/30/000000/block-microphone--v1.png"/></button>
-                <button title="Leave meet room"><img src="https://img.icons8.com/color/30/000000/end-call.png"/></button>
-            </div>
             <div class="bot-control">
-                <div class="tab-ctr">
-                    <button class="tab-btn" onclick="changeTab('list')">List</button>
-                    <button class="tab-btn" onclick="changeTab('chat')">Chat</button>
+                <div class="tab-ctr">   
+                    <button class="tab-btn" onclick="changeTab('list')"><i class="material-icons">group</i></button>
+                    <button class="tab-btn" onclick="changeTab('chat')"><i class="material-icons">chat</i></button>
+                    <button class="tab-btn" onclick="changeTab('info')"><i class="material-icons">info</i></button> 
                 </div>
-                <div id="list" class="list-tab tab tabs">
+                <div id="list" class="list-tab tab">
+                    <div class="search"><input type="text" placeholder="Search..."></div>
                     <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
-                    </div>
-                    <div class="user">
-                        <img src="public/img/user/unknow.jpg" alt="">
-                        <span> Nguyễn Văn C</span>
+                        <img src="public/img/cam3.png" alt="">
+                        <div class="overf" title="Nguyen Viet Car bruh wa' bro a`"><span> Nguyen Viet Car bruh wa' bro a`</span></div>
+                        <div class="mic">
+                            <i class="material-icons pl-2" title="mic off">mic_off</i>
+                            <i class="material-icons pl-3" title="person remove">person_remove</i>
+                        </div>
                     </div>
 
+                    <div class="user">
+                        <img src="public/img/cam1.png" alt="">
+                        <div class="overf"><span> Nguyen Viet Car bruh wa' bro a`</span></div>
+                        <div class="mic">
+                            <i class="material-icons pl-2" title="mic off">mic_off</i>
+                            <i class="material-icons pl-3" title="person remove">person_remove</i>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/cam2.png" alt="">
+                        <div class="overf"><span> Nguyen Viet Car bruh wa'</span></div>
+                        <div class="mic">
+                            <i class="material-icons pl-2" title="mic off">mic_off</i>
+                            <i class="material-icons pl-3" title="person remove">person_remove</i>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <img src="public/img/cam3.png" alt="">
+                        <div class="overf"><span> Nguyen Viet Car bruh wa'</span></div>
+                        <div class="mic">
+                            <i class="material-icons pl-2" title="mic off">mic_off</i>
+                            <i class="material-icons pl-3" title="person remove">person_remove</i>
+                        </div>
+                    </div>
                 </div>
                   
                 <div id="chat" class="chat-tab tab" style="display:none">
                     <div class="chat-box">
                         <div class="msg">
-                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="name">Nguyen Viet Car bruh wa'</span>
                             <span class="text"> hahahahaha</span>
                         </div>
                         <div class="msg">
-                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="name">Nguyen Viet Car bruh wa'</span>:
                             <span class="text"> hahahahaha</span>
                         </div>
                         <div class="msg">
-                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="name">Nguyen Viet Car bruh wa'</span>:
                             <span class="text"> hahahahaha</span>
                         </div>
                         <div class="msg">
-                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="name">Nguyen Viet Car bruh wa'</span>:
                             <span class="text"> hahahahaha</span>
                         </div>
                         <div class="msg">
-                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="name">Nguyen Viet Car bruh wa'</span>:
                             <span class="text"> hahahahaha</span>
                         </div>
                         <div class="msg">
-                            <span class="name">Nguyễn Văn C</span>:
+                            <span class="name">Nguyen Viet Car bruh wa'</span>:
                             <span class="text"> hahahahaha</span>
                         </div>
                     </div>
@@ -226,6 +405,18 @@
                         <button>gửi</button>
                     </div>
                 </div>
+
+                <div id="info" class="list-tab tab" style="display:none" >
+                    <div class="Title">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="top-control">
+                <button>Present</button>
+                <button>Off mic</button>
+                <button>Off Cam</button>
+                <button>End</button>
             </div>
         </div>
     </div>

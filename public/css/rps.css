@@ -1,4 +1,4 @@
-@media screen and (max-width: 1490px){
+/* @media screen and (max-width: 1490px){
     .cam {
         height: 143px;
     }
@@ -7,25 +7,25 @@
     .cam {
         height: 175px !important;
     }
-}
-@media screen and (max-width: 1200px){
+} */
+/* @media screen and (max-width: 1200px){
     .cam {
-        width: 24% !important;
+        width: 30% !important;
     }
-}
+} */
 @media screen and (min-width: 1200px){
 
 }
 @media screen and (max-width: 1100px){
 
 }
-@media screen and (max-width: 1036px){
+/* @media screen and (max-width: 1036px){
     .cam {
         width: 32.3% !important;
         height: 160px;
     }
 
-}
+} */
 @media screen and (max-width: 992px){
 
 }
