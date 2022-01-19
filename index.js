@@ -1,5 +1,7 @@
 const express = require('express');
 const { stringify } = require('querystring');
+const bcrypt = require('bcrypt');
+const connectDB = require('./config/db');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -18,9 +20,19 @@ let rooms = [
     },
 ];
 
-// app.get('/', (req, res) => {
-//     res.redirect(`/${uuidV4()}`);
-// });
+const User = require('./models/User');
+app.get('/res', (req, res) => {
+    // const username = req.body.username;
+    // const password = req.body.password;
+    const username = "khapro123";
+    const password = "khapro123";
+    bcrypt.hash(password, 10, async (err, hash) => {
+        const userData = { username, password: hash };
+        const newUser = new User(userData);
+        await newUser.save();
+        res.redirect('/');
+    });
+});
 
 app.get('/', (req, res) => {
     res.render('pages/index');
@@ -174,7 +186,7 @@ function removeUser(roomId, userId){
     });
     rooms[index].users.splice(d, 1);
 }
-
+connectDB();
 server.listen( port, () => {
     console.log("server is running in 3000");
 });

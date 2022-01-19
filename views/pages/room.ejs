@@ -9,41 +9,57 @@
         console.log(ROOM_ID);
     </script>
 
-    <main>
-        <div class="wrapper">
-            <div class="box">
-                <div class="video-container">
-                    <div id="video-grid">
+    <div class="wrapper">
+        
+        <div class="l-main">
+            <div class="present">
+                <video autoplay id="screen"></video>
+            </div>
+            <div class="list-cam" id="lc">
+            </div>
             
-                    </div>
-                    <button id="btn-off-cam">Tắt camera</button>
-                    <button id="btn-on-cam" style="display: none;">Bật camera</button> <br>
-                    <button id="btn-share-screen">Chia sẻ màn hình</button>
-                    <button id="btn-stop-share" style="display: none;">Dừng chia sẻ màn hình</button>
+        </div>
+
+        <!-- List-user -->
+        <div class="r-main">
+            <div class="bot-control">
+                <div class="tab-ctr">   
+                    <button class="tab-btn" onclick="changeTab('list')"><i class="material-icons">group</i></button>
+                    <button class="tab-btn" onclick="changeTab('chat')"><i class="material-icons">chat</i></button>
+                    <button class="tab-btn" onclick="changeTab('info')"><i class="material-icons">info</i></button> 
                 </div>
-            
-                <div class="chat-container">
-                    <div class="chat-box">
-            
+                <div id="list" class="list-tab tab">
+                    <div class="search"><input type="text" placeholder="Search..."></div>
+                    <div class="list-users">
+
                     </div>
-                    <div class="">
+                </div>
+                  
+                <div id="chat" class="chat-tab tab" style="display:none">
+                    <div class="chat-box">
+
+                    </div>
+                    <div class="chat-input">
                         <input type="text" id="chat-input" placeholder="Enter your message..." autocomplete="off">
                         <button type="submit" id="submit-chat"> Enter </button>
                     </div>
                 </div>
-        
-                <div class="list-box">
-                    <ul class="list-users">
-        
-                    </ul>
+
+                <div id="info" class="list-tab tab" style="display:none" >
+                    <div class="Title">
+                        
+                    </div>
                 </div>
             </div>
-    
-            <div class="share-screen">
-                <video autoplay id="screen"></video>
+            <div class="top-control">
+                <button id="btn-share-screen">Present</button>
+                <button id="btn-stop-share" style="display: none;">Stop Present</button>
+                <button>Off mic</button>
+                <button>Off Cam</button>
+                <button>End</button>
             </div>
         </div>
-    </main>
+    </div>
 
     <footer>
         <%- include('../partials/footer') %> 
@@ -52,5 +68,15 @@
     <%- include('../partials/foot') %>
 
     <script src="js/script.js" defer></script>
+    <script>
+        function changeTab(tab) {
+            var i;
+            var x = document.getElementsByClassName("tab");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  
+            }
+            document.getElementById(tab).style.display = "block";  
+        }
+    </script>
 </body>
 </html>
