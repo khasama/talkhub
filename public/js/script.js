@@ -29,8 +29,8 @@ navigator.mediaDevices.getUserMedia({
     localStream = stream;
     // Bắt đầu tạo userId và gửi userId và roomId lên cho server với key là 'join-room'
     myPeer.on('open', id => {
-        socket.emit('join-room', ROOM_ID, id, stream.id);
-        addVideoStream(myVideo, localStream, myCam); // Thêm màn hình của chính mình lên
+        socket.emit('join-room', ROOM_ID, id, stream.id, username);
+        addVideoStream(myVideo, localStream, myCam, username); // Thêm màn hình của chính mình lên
         currentId = id;
         console.log('khoi tao');
         
@@ -47,8 +47,17 @@ myPeer.on('call', call => {
     cam.classList.add("cam");
     cam.classList.add("b");
     call.on('stream', userVideoStream => {
+        let name = "";
         //video.setAttribute('id', userVideoStream.id);
-        addVideoStream(video, userVideoStream, cam); //Nếu có người gọi tới thì thêm stream của họ vào
+        listUsers.forEach(ele => {
+            const a = ele.mediaId;
+            const b = userVideoStream.id;
+            if(ele.mediaId == userVideoStream.id){
+                name = ele.name;
+                console.log(name);
+            }
+        });
+        addVideoStream(video, userVideoStream, cam, name); //Nếu có người gọi tới thì thêm stream của họ vào
     });
 });
 
@@ -56,18 +65,26 @@ myPeer.on('call', call => {
 myPeer.on('connection', (conn) => {
     conn.on('data', (data) => {
         // nếu có người nhắn thì thêm tin nhắn lên box
+        let name = "";
+        //video.setAttribute('id', userVideoStream.id);
+        listUsers.forEach(ele => {
+            if(ele.userId == conn.peer){
+                name = ele.name;
+            }
+        });
+        console.log(conn.peer);
         $(".chat-box").append(` <div class="msg">
-                                    <span class="name">${conn.peer}</span>
+                                    <span class="name">${name}: </span>
                                     <span class="text">${data}</span>
                                 </div>`);
     });
 });
 
 // Nhận về userId của người vừa vào phòng và gọi cho họ
-socket.on('user-connected',  userId => {
+socket.on('user-connected',  (userId, username) => {
     // $(".chat-box").append(`${userId} vừa tham gia !!!`);
-    $(".chat-box").append(`<span class="name"> ${userId} vừa tham gia !!!</span>`);
-    connectToNewUser(userId, localStream);
+    $(".chat-box").append(`<span class="name"> ${username} vừa tham gia !!!</span>`);
+    connectToNewUser(userId, localStream, username);
     console.log('co nguoi ket noi');
 });
 
@@ -87,8 +104,8 @@ socket.on('update-list', userInRoom => {
 });
 
 // nếu có người hủy kết nối thì hủy màn hình của họ và đóng kết nối
-socket.on('user-disconnected', (userInRoom, userId, mediaId) => {
-    console.log('co nguoi huy ket noi');
+socket.on('user-disconnected', (userInRoom, userId, mediaId, username) => {
+    //console.log('co nguoi huy ket noi');
     if(peers[userId]) peers[userId].close(); 
     listUsers = JSON.parse(userInRoom).users;
 
@@ -96,7 +113,7 @@ socket.on('user-disconnected', (userInRoom, userId, mediaId) => {
     updateUsers(listUsers);
 
     // hiện người vừa rời lên box
-    $(".chat-box").append(`<p>${userId} vừa rời phòng !!!</p>`);
+    $(".chat-box").append(`<p>${username} vừa rời phòng !!!</p>`);
     $(`#${mediaId}`).remove();
 });
 
@@ -129,10 +146,10 @@ socket.on('user-shared', screenId => {
 socket.on('user-stop-share', () => {
     screenView.pause();
     screenView.src = "";
-    $(".share-screen").hide();
+    $(".present").hide();
 });
 
-function addVideoStream(video, stream, cam){
+function addVideoStream(video, stream, cam, username){
 
     cam.id = stream.id;
     video.autoplay = true;
@@ -143,22 +160,23 @@ function addVideoStream(video, stream, cam){
     $("#lc").append(cam);
     cam.append(video);
     var name = document.createElement("span");
-    var t = document.createTextNode("This is a simp.");
+    var t = document.createTextNode(username);
     name.appendChild(t);
     cam.appendChild(name);
 
 }
 
-function connectToNewUser(userId, stream){
+function connectToNewUser(userId, stream, username){
     //gọi cho họ với userId và gửi kèm với cái stream của mình
     const call = myPeer.call(userId, stream);
+    // console.log(username);
     const video = document.createElement('video');
     const cam = document.createElement("div");
     cam.classList.add("cam");
     cam.classList.add("b");
     call.on('stream', userVideoStream => {
         // nếu họ trả lời thì thêm màn hình của họ lên
-        addVideoStream(video, userVideoStream, cam);
+        addVideoStream(video, userVideoStream, cam, username);
         console.log("a");
     });
     call.on('close', () => {
@@ -173,7 +191,7 @@ function updateUsers(listUsers){
     listUsers.find((obj, i) => {
         list += `<div class="user">
                     <img src="img/cam3.png" alt="">
-                    <div class="overf" title="="><span>${obj.userId}</span></div>
+                    <div class="overf" title="="><span>${obj.name}</span></div>
                     <div class="mic">
                         <i class="material-icons pl-2" title="mic off">mic_off</i>
                         <i class="material-icons pl-3" title="person remove">person_remove</i>

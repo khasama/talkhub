@@ -5,7 +5,7 @@
 </head>
 <body class="bg">
     <header>
-        <%- include('../partials/header') %> 
+        <%- include('../partials/header', {user: user}) %> 
     </header>
     <div class="container-fluid bgr">
         <!-- login/signup -->
@@ -15,36 +15,41 @@
                     <span onclick="document.getElementById('id01').style.display='none'" class="close pr-2"
                         style="font-family: 'Caveat', cursive; cursor:pointer; font-size: 200%;"
                         title="Close Modal">&times;</span>
-                    <form action="#">
+                    <form action="/signup" method="post">
                         <h2><b>SIGN UP</b></h2>
                         <div class="social-container">
-                            <a href="#" class="social fb"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social gg"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#" class="social in"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="javascript:void(0)" class="social fb"><i class="fab fa-facebook-f"></i></a>
+                            <a href="javascript:void(0)" class="social gg"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="javascript:void(0)" class="social in"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <span>or use your email</span>
-                        <input onfocus="this.value=''" type="text" placeholder="User name" />
-                        <input onfocus="this.value=''" type="email" placeholder="Pass" />
-                        <input onfocus="this.value=''" type="password" placeholder="Re-enter password again" />
-                        <button class="buton">SIGN UP</button>
+                        <!-- <span>or use your email</span> -->
+                        <% if(errorSignUp != "") { %>
+                            <span style="color: red;"><%- errorSignUp %></span>
+                        <% } %>
+                        <input onfocus="" type="text" placeholder="Username" name="username"/>
+                        <input onfocus="" type="password" placeholder="Password" name="password"/>
+                        <input onfocus="" type="password" placeholder="Re-enter password again" />
+                        <button class="buton" type="submit">SIGN UP</button>
                     </form>
                 </div>
                 <div class="form-container sign-in-container up">
                     <span onclick="document.getElementById('id01').style.display='none'" class="close pr-2"
                         style="font-family: 'Caveat', cursive; cursor:pointer; font-size: 200%;"
                         title="Close Modal">&times;</span>
-                    <form action="#">
+                    <form action="/signin" method="post">
                         <h2 class="py-2"><b>LOG IN</b></h2>
                         <div class="social-container">
-                            <a href="#" class="social fb"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social gg"><i class="fab fa-google-plus-g"></i></a>
-                            <a href="#" class="social in"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="javascript:void(0)" class="social fb"><i class="fab fa-facebook-f"></i></a>
+                            <a href="javascript:void(0)" class="social gg"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="javascript:void(0)" class="social in"><i class="fab fa-linkedin-in"></i></a>
                         </div>
-                        <span class="or">or use your email</span>
-                        <input type="email" placeholder="Email" />
-                        <input onfocus="this.value=''" type="password" placeholder="password?" />
-                        <a class="or" href="#">Forget password?</a>
-                        <button class="buton">log in</button>
+                        <% if(errorSignIn != "") { %>
+                            <span style="color: red;"><%- errorSignIn %></span>
+                        <% } %>
+                        <input type="text" placeholder="Username" name="username"/>
+                        <input onfocus="" type="password" placeholder="password"  name="password"/>
+                        <a class="or" href="javascript:void(0)">Forget password?</a>
+                        <button class="buton" type="submit">Login</button>
                     </form>
                 </div>
                 <div class="overlay-container">
@@ -66,14 +71,14 @@
         <!-- End form -->
         <div class="container">
             <div class="col-md-6 mx-auto text-center">
-            <div class="header-title">
-                <h1 class="white-text wv-heading--title ptt">
-                    Talk Hub
-                </h1>
-                <h3 class="white-text wv-heading--subtitle">
-                    Talk together, Talk Hub is where you can chat with your group of friends, study, gaming group and more...
-                </h3>
-            </div>
+                <div class="header-title">
+                    <h1 class="white-text wv-heading--title ptt">
+                        Talk Hub
+                    </h1>
+                    <h3 class="white-text wv-heading--subtitle">
+                        Talk together, Talk Hub is where you can chat with your group of friends, study, gaming group and more...
+                    </h3>
+                </div>
             </div>
             <div class="row">
                 <div class="wr" style="margin: 0 auto;text-align: center;">

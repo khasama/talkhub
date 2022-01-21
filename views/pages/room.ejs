@@ -6,6 +6,7 @@
 <body>
     <script>
         const ROOM_ID = "<%= roomId %>";
+        const username = "<%= user.username %>";
         console.log(ROOM_ID);
     </script>
 
@@ -57,7 +58,7 @@
                             <div class="">Creat at: 90:15 AM</div>
                         </div>
                         <!-- The text field -->
-                        <input type="text" value="IDroom" id="IDroom" style="display: none;">
+                        <input type="text" value="<%- roomId %>" id="IDroom" style="display: none;">
                         <!-- The button used to copy the text -->
                         <div style="text-align: center;">
                             <button style="background-color: transparent; text-align: center; border: none; color: wheat;" onclick="GetID()">Copy IDroom <i class="material-icons pl-2" title="coppy id room">content_copy</i></button>

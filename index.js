@@ -2,6 +2,7 @@ const express = require('express');
 const { stringify } = require('querystring');
 const bcrypt = require('bcrypt');
 const connectDB = require('./config/db');
+const session = require('express-session');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -9,6 +10,14 @@ const { v4: uuidV4, validate: uuidValidate } = require('uuid');
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
+    "key": "user",
+    "secret": "khaprovcl",
+    "resave": true,
+    "saveUninitialized": true
+}));
 const port = process.env.PORT || 3000;
 
 let allUsers = [];
@@ -21,39 +30,81 @@ let rooms = [
 ];
 
 const User = require('./models/User');
-app.get('/res', (req, res) => {
-    // const username = req.body.username;
-    // const password = req.body.password;
-    const username = "khapro123";
-    const password = "khapro123";
-    bcrypt.hash(password, 10, async (err, hash) => {
-        const userData = { username, password: hash };
-        const newUser = new User(userData);
-        await newUser.save();
+app.post('/signup', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if(username && password) {
+        console.log(`${username} ${password}`);
+        const user = await User.findOne({ username });
+        if (!user) {
+            bcrypt.hash(password, 10, async (err, hash) => {
+                const userData = { username, password: hash };
+                const newUser = new User(userData);
+                await newUser.save();
+                res.redirect('/');
+            });
+        } else {
+            return res.render('pages/index', {errorSignUp: "Đã tồn tại Username trong hệ thống", errorSignIn: ""});
+        }
+    } else {
         res.redirect('/');
-    });
+    }
+    
+});
+app.post('/signin', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    if(username && password) {
+        //console.log(`${username} ${password}`);
+        const user = await User.findOne({ username });
+        if (user) {
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (result) {
+                    req.session.user = user;
+                    //console.log(JSON.stringify(req.session.user.username));
+                    return res.redirect('/');
+                } else {
+                    return res.render('pages/index', {errorSignIn: "Sai pass", errorSignUp: ""});
+                }
+            });
+        } else {
+            return res.render('pages/index', {errorSignIn: "Không tìm thấy Username", errorSignUp: ""});
+        }
+    } else {
+        return res.redirect('/');
+    }
+    
+});
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect("/");
 });
 
 app.get('/', (req, res) => {
-    res.render('pages/index');
+    res.render('pages/index', {errorSignUp: "", errorSignIn: "", user: req.session.user});
 });
 
 app.get('/:room', (req, res) => {
-    if(uuidValidate(req.params.room)){
-        res.render('pages/room', { roomId: req.params.room });
+    if (req.session.user) {
+        if(uuidValidate(req.params.room)){
+            res.render('pages/room', { roomId: req.params.room, user: req.session.user });
+        } else {
+            res.redirect(`/`);
+        }
     } else {
-        res.redirect(`/home`);
+        res.redirect(`/`);
     }
+    
 });
 
 // Server chạy và lắng nghe kết nối
 io.on('connection', socket => {
 
     // nếu có req gọi lên với key = 'join-room' 
-    socket.on('join-room', (roomId, userId, mediaId) => {
+    socket.on('join-room', (roomId, userId, mediaId, username) => {
         let screen;
         
-        checkAndAdd(roomId, userId, mediaId); // kiểm tra có tồn tại và thêm mới
+        checkAndAdd(roomId, userId, mediaId, username); // kiểm tra có tồn tại và thêm mới
         const userInRoom = rooms.find((item, i) => { //lấy ra danh sách người đang trong phòng
             if(item.roomId == roomId){
                 return item;
@@ -72,7 +123,7 @@ io.on('connection', socket => {
 
         socket.join(roomId);
         // gửi lên userId của người vừa vào room cho tất cả người trong room với key = 'user-connected' 
-        socket.to(roomId).emit('user-connected',  userId);
+        socket.to(roomId).emit('user-connected',  userId, username);
 
         //update danh sách và gửi về cho all người trong room
         io.sockets.to(roomId).emit('update-list', JSON.stringify(userInRoom));
@@ -94,7 +145,7 @@ io.on('connection', socket => {
             // xóa người mới rời phòng
             removeUser(roomId, userId);
             // gừi về danh sách mới và userId của người vừa rời phòng cho tất cả client trong room
-            socket.to(roomId).emit('user-disconnected', JSON.stringify(userInRoom), userId, mediaId);
+            socket.to(roomId).emit('user-disconnected', JSON.stringify(userInRoom), userId, mediaId, username);
         });
 
         // lắng nghe có người nào đó share screen
@@ -139,7 +190,7 @@ io.on('connection', socket => {
     });
 });
 
-function checkAndAdd(roomId, userId, mediaId){
+function checkAndAdd(roomId, userId, mediaId, username){
     let index = -1;
     const val = `${roomId}`
     rooms.find((item, i) => {
@@ -151,6 +202,7 @@ function checkAndAdd(roomId, userId, mediaId){
         rooms[index].users.push({
             userId: `${userId}`,
             mediaId: `${mediaId}`,
+            name: `${username}`,
             isStream: false
         });
     }else{
@@ -160,6 +212,7 @@ function checkAndAdd(roomId, userId, mediaId){
             users: [{
                 userId: `${userId}`,
                 mediaId: `${mediaId}`,
+                name: `${username}`,
                 isStream: false
             }]
         });
