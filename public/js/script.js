@@ -143,7 +143,7 @@ function addVideoStream(video, stream, cam){
     $("#lc").append(cam);
     cam.append(video);
     var name = document.createElement("span");
-    var t = document.createTextNode("This is a paragraph.");
+    var t = document.createTextNode("This is a simp.");
     name.appendChild(t);
     cam.appendChild(name);
 
@@ -172,7 +172,7 @@ function updateUsers(listUsers){
     let list = '';
     listUsers.find((obj, i) => {
         list += `<div class="user">
-                    <img src="public/img/cam3.png" alt="">
+                    <img src="img/cam3.png" alt="">
                     <div class="overf" title="="><span>${obj.userId}</span></div>
                     <div class="mic">
                         <i class="material-icons pl-2" title="mic off">mic_off</i>

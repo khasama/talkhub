@@ -55,6 +55,8 @@
     align-items: center;
     overflow: hidden;
     width: 300px;
+    color: #fff;
+    text-align: center;
 }
 
 .cam img{
@@ -236,15 +238,58 @@ button:focus {
     padding: 5px;
     width: 100%;
     text-align-last: center;
+    color: #fff;
     
 }
 .search input{
-    border-radius: 10px;
-    box-shadow: #fff;
+    border-radius: 5px;
     background-color: transparent;
     color: #fff;
 }
+.search button{
+    background: transparent;
+    border: none;
+    color: #fff;
+    vertical-align: text-top;
+}
+.title{
+    text-align-last: center;
+    margin  : 10px;
+    background-color: transparent;
+    border: #00001a 5px ;
+    border-style: dotted solid;
+    
+}
+.chat-input{
+    margin: 2px;
+    margin-bottom: 10px;
+    display: flex;
+    border: 1px;
+    min-height: 35px;
+    background-color: rgba(15, 0, 0, 0.7);
+    border-radius: 5px;
+}
+.chat-input input{
+    background-color: transparent;
+    border:none;
 
+}
+.chat-input button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    position: absolute;
+    right: 0;
+}
+:focus-visible {
+    outline: none;
+}
+
+
+button:focus {
+    outline: 0px dotted;
+    outline: 0px auto -webkit-focus-ring-color !important;
+}
 video {
     width: 300px;;
 

@@ -29,6 +29,7 @@
                     <button class="tab-btn" onclick="changeTab('info')"><i class="material-icons">info</i></button> 
                 </div>
                 <div id="list" class="list-tab tab">
+                    <div class="search pt-2"><h5>People in call</h5></div>
                     <div class="search"><input type="text" placeholder="Search..."></div>
                     <div class="list-users">
 
@@ -39,15 +40,28 @@
                     <div class="chat-box">
 
                     </div>
-                    <div class="chat-input">
-                        <input type="text" id="chat-input" placeholder="Enter your message..." autocomplete="off">
-                        <button type="submit" id="submit-chat"> Enter </button>
-                    </div>
+                    <div class="chat-input form__group field">
+                        <input type="text" id="chat-input" class="form__field pl-3 py-2 text-white" autocomplete="off" placeholder="Send message.. " name="name" id='name' />
+                        
+                        <button type="submit" id="submit-chat"><i class="material-icons px-2 py-1 mt-1" title="send">send</i></button>
+                      </div>
                 </div>
 
                 <div id="info" class="list-tab tab" style="display:none" >
-                    <div class="Title">
-                        
+                    <div class="search pt-2"><h5>Detail room</h5></div>
+                    <div class="title px-2 py-2">
+                        <div class="text-white px-3">
+                            <div class="">Joining info</div>
+                            <div class="">https://</div>
+                            <div class="">ID room</div>
+                            <div class="">Creat at: 90:15 AM</div>
+                        </div>
+                        <!-- The text field -->
+                        <input type="text" value="IDroom" id="IDroom" style="display: none;">
+                        <!-- The button used to copy the text -->
+                        <div style="text-align: center;">
+                            <button style="background-color: transparent; text-align: center; border: none; color: wheat;" onclick="GetID()">Copy IDroom <i class="material-icons pl-2" title="coppy id room">content_copy</i></button>
+                        </div>
                     </div>
                 </div>
             </div>
