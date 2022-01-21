@@ -26,6 +26,7 @@
 
 .r-main{
     width: 20%;
+    
     background: -webkit-linear-gradient(5deg, #006666, #00001a);
 
 }
@@ -83,10 +84,29 @@
     /* display: none; */
 }
 
+button{
+    outline: none !important;
+}
+.bot-control{
+    height: 90%;
+}
 .top-control {
     width: 100%;
-    /* height: 80px; */
-    background-color: gray;
+    align-items: center;
+    display: grid;
+    grid-gap: 0px;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 50px));
+    justify-content: center;
+    background-color: black;
+}
+
+.top-control button{
+    background-color: black    ;
+    color: #fff;
+    border: none;
+}
+.out{
+    background-color: brown !important;
 }
 
 
@@ -160,7 +180,8 @@
 
 .list-tab{
     overflow: scroll;
-    height: 600px;
+    height: 100%;
+
 }
 
 :focus-visible {
