@@ -269,6 +269,9 @@ $("#btn-stop-share").click(() => {
     $("#btn-stop-share").hide();
     
 });
+
+
+// coppy ID room
 function GetID() {
     /* Get the text field */
     var copyText = document.getElementById("IDroom");
@@ -280,3 +283,5 @@ function GetID() {
     /* Alert the copied text */
     alert("Copied the text: " + copyText.value);
 }
+
+

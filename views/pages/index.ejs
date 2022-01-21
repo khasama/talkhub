@@ -8,6 +8,62 @@
         <%- include('../partials/header') %> 
     </header>
     <div class="container-fluid bgr">
+        <!-- login/signup -->
+        <div id="id01" class="modal">
+            <div class="container tal" id="container">
+                <div class="form-container sign-up-container up">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close pr-2"
+                        style="font-family: 'Caveat', cursive; cursor:pointer; font-size: 200%;"
+                        title="Close Modal">&times;</span>
+                    <form action="#">
+                        <h2><b>SIGN UP</b></h2>
+                        <div class="social-container">
+                            <a href="#" class="social fb"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social gg"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="#" class="social in"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <span>or use your email</span>
+                        <input onfocus="this.value=''" type="text" placeholder="User name" />
+                        <input onfocus="this.value=''" type="email" placeholder="Pass" />
+                        <input onfocus="this.value=''" type="password" placeholder="Re-enter password again" />
+                        <button class="buton">SIGN UP</button>
+                    </form>
+                </div>
+                <div class="form-container sign-in-container up">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close pr-2"
+                        style="font-family: 'Caveat', cursive; cursor:pointer; font-size: 200%;"
+                        title="Close Modal">&times;</span>
+                    <form action="#">
+                        <h2 class="py-2"><b>LOG IN</b></h2>
+                        <div class="social-container">
+                            <a href="#" class="social fb"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social gg"><i class="fab fa-google-plus-g"></i></a>
+                            <a href="#" class="social in"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                        <span class="or">or use your email</span>
+                        <input type="email" placeholder="Email" />
+                        <input onfocus="this.value=''" type="password" placeholder="password?" />
+                        <a class="or" href="#">Forget password?</a>
+                        <button class="buton">log in</button>
+                    </form>
+                </div>
+                <div class="overlay-container">
+                    <div class="overlay">
+                        <div class="overlay-panel overlay-left">
+                            <h2 class="py-2">Welcome back!</h2>
+                            <p>Sign in so Pỏn hub can take care of you more</p>
+                            <button class="ghost buton" id="signIn">Sign in</button>
+                        </div>
+                        <div class="overlay-panel overlay-right">
+                            <h2>Hello bro</h2>
+                            <p>Enter your personal information and get started with Pỏn hub</p>
+                            <button class="ghost buton" id="signUp">Sign up</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End form -->
         <div class="container">
             <div class="col-md-6 mx-auto text-center">
             <div class="header-title">
@@ -15,7 +71,7 @@
                     Talk Hub
                 </h1>
                 <h3 class="white-text wv-heading--subtitle">
-                    Cùng nhau trò chuyện, Talk Hub là nơi bạn có thể trò chuyện với nhóm bạn, học tập, nhóm chơi game và nhiều thứ khác nữa...
+                    Talk together, Talk Hub is where you can chat with your group of friends, study, gaming group and more...
                 </h3>
             </div>
             </div>
@@ -52,6 +108,19 @@
         $("#join-room").click(() => {
             const id = $("#id-room").val();
             window.location = `/${id}`;
+        });
+
+        //login form
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
         });
     </script>
 </body>
