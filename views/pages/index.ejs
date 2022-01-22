@@ -26,19 +26,23 @@
                         <% if(errorSignUp != "") { %>
                             <span style="color: red;"><%- errorSignUp %></span>
                         <% } %>
-                        <input onfocus="this.value=''" type="text" placeholder="Username" name="username" required/>
+                        <!-- <input onfocus="this.value=''" type="text" placeholder="Username" name="username" required/>
 
                         <div class="error-text"></div>
                         <div class="field" style="width: 98%; display: flex;">
-                        <input onfocus="this.value=''" onkeyup="active()" id="pswrd_1" type="password" placeholder="Enter Password">
+                        <input onfocus="this.value=''" onkeyup="active()" id="pswrd_1" type="password" name="password" placeholder="Enter Password">
                         <div class="show" style="width: 10%; align-self: center;">
                             <i class="material-icons">visibility</i>
                         </div>
                         </div>
                         <div class="field">                    
-                            <input onfocus="this.value=''" onkeyup="active_2()" id="pswrd_2" disabled type="password" placeholder="Confirm Password">
+                            <input onfocus="this.value=''" onkeyup="active_2()"  id="pswrd_2" disabled type="password" placeholder="Confirm Password">
                         </div>
-                        <button class="buton" type="submit" disabled>SIGN UP</button>
+                        <button class="buton" type="submit" disabled>SIGN UP</button> -->
+                        <input onfocus="" type="text" placeholder="Username" name="username"/>
+                        <input onfocus="" type="password" placeholder="Password" name="password"/>
+                        <input onfocus="" type="password" placeholder="Re-enter password again" />
+                        <button class="buton" type="submit">SIGN UP</button>
                         
                     </form>
                 </div>
