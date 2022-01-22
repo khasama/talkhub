@@ -44,7 +44,7 @@ app.post('/signup', async (req, res) => {
                 res.redirect('/');
             });
         } else {
-            return res.render('pages/index', {errorSignUp: "Đã tồn tại Username trong hệ thống", errorSignIn: ""});
+            return res.render('pages/index', {errorSignUp: "Đã tồn tại Username trong hệ thống", errorSignIn: "", user: ""});
         }
     } else {
         res.redirect('/');
@@ -64,11 +64,11 @@ app.post('/signin', async (req, res) => {
                     //console.log(JSON.stringify(req.session.user.username));
                     return res.redirect('/');
                 } else {
-                    return res.render('pages/index', {errorSignIn: "Sai pass", errorSignUp: ""});
+                    return res.render('pages/index', {errorSignIn: "Sai pass", errorSignUp: "", user: ""});
                 }
             });
         } else {
-            return res.render('pages/index', {errorSignIn: "Không tìm thấy Username", errorSignUp: ""});
+            return res.render('pages/index', {errorSignIn: "Không tìm thấy Username", errorSignUp: "", user: ""});
         }
     } else {
         return res.redirect('/');
@@ -81,7 +81,12 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('pages/index', {errorSignUp: "", errorSignIn: "", user: req.session.user});
+    if(req.session.user){
+        res.render('pages/index', {errorSignUp: "", errorSignIn: "", user: req.session.user});
+    } else {
+        res.render('pages/index', {errorSignUp: "", errorSignIn: "", user: ""});
+    }
+    
 });
 
 app.get('/:room', (req, res) => {

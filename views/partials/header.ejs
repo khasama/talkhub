@@ -1,7 +1,7 @@
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" style="background: hsl(221deg 100% 62%)   !important">
     <!-- <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-large" style="background-color: #113484 !important;"><img src="img/logo.png" style="width: 20%;"></a> -->
-    <% if(!user) { %>
+    <% if(user == "") { %>
       <a class="w3-right pr-4" onclick="document.getElementById('id01').style.display='block'" style="width:auto;" href="javascript:void(0)" title="sign in"><img style="width: 80%;" src="https://img.icons8.com/external-bearicons-detailed-outline-bearicons/64/ffffff/external-login-call-to-action-bearicons-detailed-outline-bearicons.png"/></a>
     <% } else { %>
       <a class="w3-right pr-4" style="width:auto;" href="/logout" title="log out"><img style="width: 70%; padding-top: 5px;" src="https://img.icons8.com/external-sbts2018-solid-sbts2018/58/ffffff/external-logout-social-media-sbts2018-solid-sbts2018.png"/></a>
