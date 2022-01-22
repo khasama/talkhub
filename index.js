@@ -149,7 +149,7 @@ io.on('connection', socket => {
         });
 
         // lắng nghe có người nào đó share screen
-        socket.on('user-share', (roomId, id, userId) => {
+        socket.on('user-share', (roomId, id, userId, username) => {
             let index;
             rooms.find((item, i) => {
                 if(item.roomId == roomId){
@@ -164,7 +164,7 @@ io.on('connection', socket => {
             });
             console.log(rooms[index]);
             // gửi screenId về cho những người khác trừ người gửi
-            socket.to(roomId).emit('user-share', id);
+            socket.to(roomId).emit('user-share', id, username, JSON.stringify(userInRoom));
         });
         // lắng nghe có người vừa dừng share
         socket.on('user-stop-share', () => {

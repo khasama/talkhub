@@ -46,18 +46,19 @@ myPeer.on('call', call => {
     const cam = document.createElement("div");
     cam.classList.add("cam");
     cam.classList.add("b");
+    let i = 1;
     call.on('stream', userVideoStream => {
         let name = "";
+        //console.log(1);
         //video.setAttribute('id', userVideoStream.id);
         listUsers.forEach(ele => {
-            const a = ele.mediaId;
-            const b = userVideoStream.id;
-            if(ele.mediaId == userVideoStream.id){
+            if(ele.mediaId == userVideoStream.id && i == 1){
                 name = ele.name;
-                console.log(name);
+                i = 2;
+                addVideoStream(video, userVideoStream, cam, name); //Nếu có người gọi tới thì thêm stream của họ vào
             }
         });
-        addVideoStream(video, userVideoStream, cam, name); //Nếu có người gọi tới thì thêm stream của họ vào
+        
     });
 });
 
@@ -118,27 +119,44 @@ socket.on('user-disconnected', (userInRoom, userId, mediaId, username) => {
 });
 
 // nếu nếu có người share screen thì gọi tới screen đó để lấy stream về
-socket.on('user-share',  screenId => {
+socket.on('user-share',  (screenId, username, userInRoom) => {
     const screen = myPeer.call(screenId, localStream);
+    listUsers = JSON.parse(userInRoom).users;
+
+    // Update lại cái danh sách người dùng trong phòng
+    updateUsers(listUsers);
     screen.on('stream', userScreenStream => {
         // nếu có người đang share screen thì hiện ra
         screenView.srcObject = userScreenStream;
         screenView.addEventListener('loadedmetadata', () => {
             screenView.play();
         });
+        //console.log(username);
+        $("#pu").text(`${username} đang trình bày`);
+        $("#pu").show();
         $(".present").show();
     });
 });
 
 // nếu vừa vào phòng có người đang share thì gọi tới lun
-socket.on('user-shared', screenId => {
+socket.on('user-shared', (screenId) => {
     const screen = myPeer.call(screenId, localStream);
+    
     screen.on('stream', userScreenStream => {
         // nếu có người đang share screen thì hiện ra
+        let name = "";
+        //video.setAttribute('id', userVideoStream.id);
+        listUsers.forEach(ele => {
+            if(ele.isStream){
+                name = ele.name;
+            }
+        });
         screenView.srcObject = userScreenStream;
         screenView.addEventListener('loadedmetadata', () => {
             screenView.play();
         });
+        $("#pu").text(`${name} đang trình bày`);
+        $("#pu").show();
         $(".present").show();
     });
 });
@@ -147,6 +165,7 @@ socket.on('user-stop-share', () => {
     screenView.pause();
     screenView.src = "";
     $(".present").hide();
+    $("#pu").hide();
 });
 
 function addVideoStream(video, stream, cam, username){
@@ -174,9 +193,16 @@ function connectToNewUser(userId, stream, username){
     const cam = document.createElement("div");
     cam.classList.add("cam");
     cam.classList.add("b");
+    let i = 1;
     call.on('stream', userVideoStream => {
         // nếu họ trả lời thì thêm màn hình của họ lên
-        addVideoStream(video, userVideoStream, cam, username);
+        listUsers.forEach(ele => {
+            if(ele.mediaId == userVideoStream.id && i == 1){
+                i = 2;
+                addVideoStream(video, userVideoStream, cam, username); //Nếu có người gọi tới thì thêm stream của họ vào
+            }
+        });
+        
         console.log("a");
     });
     call.on('close', () => {
@@ -260,7 +286,7 @@ $("#btn-share-screen").click(() => {
         });
         const screenPeer = new Peer();
         screenPeer.on('open', id => {
-            socket.emit('user-share', ROOM_ID, id, currentId);
+            socket.emit('user-share', ROOM_ID, id, currentId, username);
         });
 
         screenPeer.on('call', call => {
@@ -269,6 +295,8 @@ $("#btn-share-screen").click(() => {
         
         // Ẩn những thứ cần ẩn và hiện những thứ cần hiện
         $(".present").show();
+        $("#pu").text("You is presenting");
+        $("#pu").show();
         $("#btn-share-screen").hide();
         $("#btn-stop-share").show();
     })
