@@ -26,10 +26,20 @@
                         <% if(errorSignUp != "") { %>
                             <span style="color: red;"><%- errorSignUp %></span>
                         <% } %>
-                        <input onfocus="" type="text" placeholder="Username" name="username"/>
-                        <input onfocus="" type="password" placeholder="Password" name="password"/>
-                        <input onfocus="" type="password" placeholder="Re-enter password again" />
-                        <button class="buton" type="submit">SIGN UP</button>
+                        <input onfocus="this.value=''" type="text" placeholder="Username" name="username" required/>
+
+                        <div class="error-text"></div>
+                        <div class="field" style="width: 98%; display: flex;">
+                        <input onfocus="this.value=''" onkeyup="active()" id="pswrd_1" type="password" placeholder="Enter Password">
+                        <div class="show" style="width: 10%; align-self: center;">
+                            <i class="material-icons">visibility</i>
+                        </div>
+                        </div>
+                        <div class="field">                    
+                            <input onfocus="this.value=''" onkeyup="active_2()" id="pswrd_2" disabled type="password" placeholder="Confirm Password">
+                        </div>
+                        <button class="buton" type="submit" disabled>SIGN UP</button>
+                        
                     </form>
                 </div>
                 <div class="form-container sign-in-container up">
@@ -46,8 +56,8 @@
                         <% if(errorSignIn != "") { %>
                             <span style="color: red;"><%- errorSignIn %></span>
                         <% } %>
-                        <input type="text" placeholder="Username" name="username"/>
-                        <input onfocus="" type="password" placeholder="password"  name="password"/>
+                        <input type="text" placeholder="Username" name="username" required/>
+                        <input onfocus="this.value=''" type="password" placeholder="password"  name="password" required/>
                         <a class="or" href="javascript:void(0)">Forget password?</a>
                         <button class="buton" type="submit">Login</button>
                     </form>
@@ -56,12 +66,12 @@
                     <div class="overlay">
                         <div class="overlay-panel overlay-left">
                             <h2 class="py-2">Welcome back!</h2>
-                            <p>Sign in so Pỏn hub can take care of you more</p>
+                            <p>Sign in so Talk hub can take care of you more</p>
                             <button class="ghost buton" id="signIn">Sign in</button>
                         </div>
                         <div class="overlay-panel overlay-right">
                             <h2>Hello bro</h2>
-                            <p>Enter your personal information and get started with Pỏn hub</p>
+                            <p>Enter your personal information and get started with Talk hub</p>
                             <button class="ghost buton" id="signUp">Sign up</button>
                         </div>
                     </div>
@@ -70,11 +80,9 @@
         </div>
         <!-- End form -->
         <div class="container">
-            <div class="col-md-6 mx-auto text-center">
+            <div class="col-md-6 mx-auto text-center pt-3">
                 <div class="header-title">
-                    <h1 class="white-text wv-heading--title ptt">
-                        Talk Hub
-                    </h1>
+                    <img src="img/logo.png" style="width: 50%;">
                     <h3 class="white-text wv-heading--subtitle">
                         Talk together, Talk Hub is where you can chat with your group of friends, study, gaming group and more...
                     </h3>
@@ -82,8 +90,12 @@
             </div>
             <div class="row">
                 <div class="wr" style="margin: 0 auto;text-align: center;">
-                    <input type="text" id="id-room">
-                    <button id="join-room">Join</button> <br>
+                    <div class="complex"><input class="" type="text" id="id-room" style="background-color: transparent; border: none;">
+                        <button id="join-room">
+                            <i class="material-icons px-2 py-1 mt-1" title="send">exit_to_app</i>
+                        </button> <br>
+                    </div>
+                    
                     <button id="create-room"> 
                         <img src="https://img.icons8.com/ios-glyphs/30/ffffff/plus.png"/>
                         Create room
@@ -127,6 +139,57 @@
         signInButton.addEventListener('click', () => {
             container.classList.remove('right-panel-active');
         });
+
+        // check form login/signup
+        const pswrd_1 = document.querySelector("#pswrd_1");
+         const pswrd_2 = document.querySelector("#pswrd_2");
+         const errorText = document.querySelector(".error-text");
+         const showBtn = document.querySelector(".show");
+         const btn = document.querySelector("button");
+         function active(){
+           if(pswrd_1.value.length >= 6){
+             btn.removeAttribute("disabled", "");
+             btn.classList.add("active");
+             pswrd_2.removeAttribute("disabled", "");
+           }else{
+             btn.setAttribute("disabled", "");
+             btn.classList.remove("active");
+             pswrd_2.setAttribute("disabled", "");
+           }
+         }
+         btn.onclick = function(){
+           if(pswrd_1.value != pswrd_2.value){
+             errorText.style.display = "inline";
+             errorText.classList.remove("matched");
+             errorText.textContent = "Error! Confirm Password Not Match";
+             return false;
+           }else{
+             errorText.style.display = "inline";
+             errorText.classList.add("matched");
+             alert("Account successfully created!");
+             return false;
+           }
+         }
+         function active_2(){
+           if(pswrd_2.value != ""){
+             showBtn.style.display = "inline";
+             showBtn.onclick = function(){
+               if((pswrd_1.type == "password") && (pswrd_2.type == "password")){
+                 pswrd_1.type = "text";
+                 pswrd_2.type = "text";
+                 this.innerHTML='<i class="material-icons">visibility_off</i>';
+                 this.classList.add("active");
+               }else{
+                 pswrd_1.type = "password";
+                 pswrd_2.type = "password";
+                 this.innerHTML= '<i class="material-icons">visibility</i>';
+                 this.classList.remove("active");
+               }
+             }
+           }else{
+             showBtn.style.display = "none";
+           }
+         }
     </script>
 </body>
 </html>

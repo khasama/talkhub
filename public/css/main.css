@@ -17,6 +17,7 @@ body{
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;
+    background-color: hsl(221deg 100% 62%) !important;
 }
 /* more */
 .ptt{
@@ -63,7 +64,7 @@ input[type=number]::-webkit-outer-spin-button {
     transition: border .1s linear;
 }
 .header-title{
-    margin: 5rem 0;
+    margin: 3rem 0;
 }
 h1{
     font-size: 31px;
@@ -87,5 +88,23 @@ h1{
     padding: 5px 8px;
     border: none;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 9px;
+    margin-right: 10px;
+}
+.complex{
+    margin: 2px;
+    margin-bottom: 10px;
+    display: flex;
+    border: 1px;
+    min-height: 35px;
+    background-color: rgba(15, 0, 0, 0.7);
+    border-radius: 12px;
+    
+}
+.complex input{
+    color: #fff;
+    font-weight: 600;
+}
+.error-text{
+    color: red;
 }
